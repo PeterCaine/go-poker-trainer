@@ -1,0 +1,38 @@
+package templates
+
+import "github.com/PeterCaine/go-poker-trainer/pkg/poker"
+
+templ TableComponent(communityCards []poker.Card){
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <title>Nut Buster</title>
+            <link rel="stylesheet" href="/static/styles.css"/>
+            <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+        </head>
+        <body>
+            <div class="table-container">
+                <!-- Community Cards (Reveal One Step at a Time) -->
+                <div class="deck-container">
+                    for _, card := range communityCards {
+                        @CardComponent(card)
+                    }
+                </div>
+
+            </div>
+        </body>
+    </html>
+}
+
+templ CardComponent(card poker.Card){
+    <div class={ "card", "suit-" + card.Suit}>
+        <div class="card-inner">
+            <div class="card-center">
+                { card.Name }
+            </div>
+        </div>
+    </div>
+}
+

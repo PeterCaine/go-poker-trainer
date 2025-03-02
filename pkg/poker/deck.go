@@ -55,3 +55,13 @@ func (d *Deck) ShuffleDeck() {
         (*d)[i], (*d)[j] = (*d)[j], (*d)[i]
     })
 }
+
+func (d *Deck) Deal(n int)[]Card{
+    if len(*d) < n {
+        return nil
+    }
+    dealtCards := (*d)[:n]
+    (*d) = (*d)[3:]
+    return dealtCards
+
+}
