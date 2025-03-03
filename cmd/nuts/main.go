@@ -9,12 +9,12 @@ import (
 	"github.com/PeterCaine/go-poker-trainer/web/static"
 )
 
-
 func deckHandler(w http.ResponseWriter, r *http.Request){
     deck := poker.CreateDeck()
     deck.ShuffleDeck()
     communityCards := deck.Deal(3)
-    component := templates.TableComponent(communityCards)
+    playerCards := deck.Deal(2)
+    component := templates.TableComponent(communityCards, playerCards)
     component.Render(context.Background(), w)
 }
 

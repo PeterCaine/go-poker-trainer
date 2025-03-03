@@ -2,7 +2,7 @@ package templates
 
 import "github.com/PeterCaine/go-poker-trainer/pkg/poker"
 
-templ TableComponent(communityCards []poker.Card){
+templ TableComponent(communityCards []poker.Card, playerCards []poker.Card){
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -21,6 +21,14 @@ templ TableComponent(communityCards []poker.Card){
                     }
                 </div>
 
+                <div class="player-hand">
+                    <h2>Hero</h2>
+                    <div class="player-cards">
+                        for _, card := range playerCards{
+                            @CardComponent(card)
+                        }
+                    </div>
+                </div>
             </div>
         </body>
     </html>

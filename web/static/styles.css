@@ -13,7 +13,7 @@ body {
 
 .table-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
 } 
@@ -24,6 +24,22 @@ body {
     align-items: center;
     padding: 1rem;
     gap: 1rem;
+    background: #006600;
+    border-radius: 12px;
+}
+
+.player-hand{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    color: #ffffff;
+
+}
+
+.player-cards{
+    display:flex;
+    gap: 1em;
 }
 
 .card {
