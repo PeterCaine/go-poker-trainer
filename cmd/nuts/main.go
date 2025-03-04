@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-    "sync"
 	"github.com/PeterCaine/go-poker-trainer/pkg/poker"
 	"github.com/PeterCaine/go-poker-trainer/web/templates"
 	"github.com/PeterCaine/go-poker-trainer/web/static"
@@ -12,12 +11,9 @@ import (
 
 var (
     game *poker.Game
-    gameMutex sync.Mutex
 )
 
 func deckHandler(w http.ResponseWriter, r *http.Request){
-    gameMutex.Lock()
-    defer gameMutex.Unlock()
 
     if game == nil || game.CurrentPhase == "showdown"{
         game = poker.NewGame()
