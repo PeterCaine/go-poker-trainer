@@ -4,19 +4,31 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+    "sync"
 	"github.com/PeterCaine/go-poker-trainer/pkg/poker"
 	"github.com/PeterCaine/go-poker-trainer/web/templates"
 	"github.com/PeterCaine/go-poker-trainer/web/static"
 )
 
+var (
+    game *poker.Game
+    gameMutex sync.Mutex
+)
+
 func deckHandler(w http.ResponseWriter, r *http.Request){
-    deck := poker.CreateDeck()
-    deck.ShuffleDeck()
-    communityCards := deck.Deal(3)
-    playerCards := deck.Deal(2)
-    component := templates.TableComponent(communityCards, playerCards)
+    gameMutex.Lock()
+    defer gameMutex.Unlock()
+
+    if game == nil || game.CurrentPhase == "showdown"{
+        game = poker.NewGame()
+    }
+
+    game.DealNextPhase()
+
+    component := templates.TableComponent(game.CommunityCards, game.PlayerHand)
     component.Render(context.Background(), w)
 }
+
 
 func main(){
     // Serve static files
