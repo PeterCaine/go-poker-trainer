@@ -64,3 +64,14 @@ body {
 .suit-diamond { background-color: #0040ff; }
 .suit-spade { background-color: #233244; }
 .suit-club { background-color: #008000; }
+
+.deal-button{
+    padding: 1em;
+    background: #efd217;
+    color: #000000;
+    border-radius: 12px;
+    min-width: 100px;
+    font-weight: bold;
+    font-variant-caps: small-caps;
+    font-size: 1.5em;
+}
