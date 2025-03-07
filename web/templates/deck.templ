@@ -1,8 +1,12 @@
 package templates
 
-import "github.com/PeterCaine/go-poker-trainer/pkg/poker"
+import (
+    "github.com/PeterCaine/go-poker-trainer/pkg/poker"
+    "fmt"
+    "strconv"
+    )
 
-templ TableComponent(communityCards []poker.Card, playerCards []poker.Card, currentPhase string){
+templ TableComponent(communityCards []poker.Card, playerCards []poker.Card, currentPhase string, rng *poker.Range){
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -41,6 +45,9 @@ templ TableComponent(communityCards []poker.Card, playerCards []poker.Card, curr
                         }
                     </div>
                 </div>
+                <div class="range-container">
+                    @RangeGrid(rng)
+                </div>
             </div>
         </body>
     </html>
@@ -56,3 +63,24 @@ templ CardComponent(card poker.Card){
     </div>
 }
 
+templ RangeGrid(r *poker.Range) {
+    <div class="range-grid">
+        for i := 0; i < 13; i++ {
+            <div class="grid-row">
+                for j := 0; j < 13; j++ {
+                    <button 
+                        class={ "grid-cell", templ.KV("selected", r.Grid[i][j].Selected) }
+                        hx-post={ fmt.Sprintf("/toggle-range/%d/%d", i, j) }
+                        hx-swap="outerHTML"
+                    >
+                        { r.Grid[i][j].String() }
+                    </button>
+                }
+            </div>
+        }
+    </div>
+    
+    <div class="stats">
+        <p>Total combinations in range: { strconv.Itoa(r.GetTotalCombinationsInRange()) } out of 1326</p>
+    </div>
+}

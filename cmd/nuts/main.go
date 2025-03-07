@@ -14,6 +14,8 @@ var (
     mutex sync.Mutex
 )
 
+var rangeGrid *poker.Range = poker.NewRange()
+
 func dealHandler(w http.ResponseWriter, r *http.Request){
     mutex.Lock()
     defer mutex.Unlock()
@@ -23,7 +25,7 @@ func dealHandler(w http.ResponseWriter, r *http.Request){
     }
     
     game.DealNextPhase()
-    component := templates.TableComponent(game.CommunityCards, game.PlayerHand, game.CurrentPhase)
+    component := templates.TableComponent(game.CommunityCards, game.PlayerHand, game.CurrentPhase, rangeGrid)
     component.Render(context.Background(), w)
 }
 
@@ -35,7 +37,7 @@ func deckHandler(w http.ResponseWriter, r *http.Request){
         game = poker.NewGame()
     }
     
-    component := templates.TableComponent(game.CommunityCards, game.PlayerHand, game.CurrentPhase)
+    component := templates.TableComponent(game.CommunityCards, game.PlayerHand, game.CurrentPhase, rangeGrid)
     component.Render(context.Background(), w)
 }
 

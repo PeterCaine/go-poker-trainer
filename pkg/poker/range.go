@@ -9,6 +9,13 @@ const (
     Offsuit
 )
 
+// CardCombination represents a specific combination of two cards with exact suits
+type CardCombination struct {
+    Card1 Card
+    Card2 Card
+    Selected bool  // This allows for partial selection within a hand type
+}
+
 // HandCombo represents a starting hand combination at the abstracted level (like AKs, QQ, etc.)
 type HandCombo struct {
     Card1Value int
@@ -18,6 +25,16 @@ type HandCombo struct {
     
     // This will store all the specific card combinations this abstracted hand represents
     Combinations []CardCombination
+}
+
+// getCardName converts a card value to its name (helper function)
+func getCardName(value int) string {
+    for name, val := range Values {
+        if val == value {
+            return name
+        }
+    }
+    return ""
 }
 
 // String returns the string representation (like "AKs", "TT", "76o")
@@ -32,23 +49,6 @@ func (h HandCombo) String() string {
     } else {
         return card1Name + card2Name + "o"
     }
-}
-
-// getCardName converts a card value to its name (helper function)
-func getCardName(value int) string {
-    for name, val := range Values {
-        if val == value {
-            return name
-        }
-    }
-    return ""
-}
-
-// CardCombination represents a specific combination of two cards with exact suits
-type CardCombination struct {
-    Card1 Card
-    Card2 Card
-    Selected bool  // This allows for partial selection within a hand type
 }
 
 // Range represents a collection of hand combinations
@@ -88,10 +88,10 @@ func NewRange() *Range {
                 combo.Type = Pair
                 
                 // For pairs, find all 6 combinations (C(4,2) = 6 ways to choose 2 suits from 4)
-                for s1 := 0; s1 < len(Suits); s1++ {
-                    for s2 := s1 + 1; s2 < len(Suits); s2++ {
-                        card1 := findCard(&deck, v1, Suits[s1])
-                        card2 := findCard(&deck, v1, Suits[s2])
+                for i, suit1 := range Suits {
+                    for _, suit2 := range Suits[i+1:]{
+                        card1 := findCard(&deck, v1, suit1)
+                        card2 := findCard(&deck, v1, suit2)
                         
                         cardCombo := CardCombination{
                             Card1: card1,
@@ -171,4 +171,8 @@ func formatComboKey(card1, card2 Card) string {
         card1, card2 = card2, card1
     }
     return card1.Name + card1.Suit + "," + card2.Name + card2.Suit
+}
+
+func (r *Range) GetTotalCombinationsInRange() int {
+    return r.SelectedCombos
 }
