@@ -41,13 +41,20 @@ func getCardName(value int) string {
 func (h HandCombo) String() string {
     card1Name := getCardName(h.Card1Value)
     card2Name := getCardName(h.Card2Value)
+    var suffix string
     
     if h.Type == Pair {
         return card1Name + card2Name
+
     } else if h.Type == Suited {
-        return card1Name + card2Name + "s"
+        suffix = "s"
     } else {
-        return card1Name + card2Name + "o"
+        suffix = "o"
+    }
+    if h.Card1Value > h.Card2Value {
+        return card1Name + card2Name + suffix
+    } else {
+        return card2Name + card1Name + suffix
     }
 }
 
