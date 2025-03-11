@@ -81,8 +81,6 @@ func rangeToggleHandler(w http.ResponseWriter, r *http.Request) {
         class="%s"
         hx-post="/toggle-range/%d/%d"
         hx-swap="outerHTML"
-        hx-trigger="click"
-        hx-on:after-request="htmx.ajax('GET', '/range-stats', {target:'#range-stats'});"
     >
         %s
     </button>`, classAttr, row, col, cell.String())

@@ -73,8 +73,6 @@ templ RangeGrid(r *poker.Range) {
                         class={ "grid-cell", templ.KV("selected", r.Grid[i][j].Selected) }
                         hx-post={ fmt.Sprintf("/toggle-range/%d/%d", i, j) }
                         hx-swap="outerHTML"
-                        hx-trigger="click"
-                        hx-on:after-request="htmx.ajax('GET', '/range-stats', {target:'#range-stats'});"
                     >
                         { r.Grid[i][j].String() }
                     </button>
