@@ -75,3 +75,38 @@ body {
     font-variant-caps: small-caps;
     font-size: 1.5em;
 }
+
+.grid-cell{
+    min-width: 4em;
+    min-height: 4em;
+    background: #efd217;
+}
+
+.grid-cell.selected{
+    min-width: 4em;
+    min-height: 4em;
+    background: #ff3333;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1em;
+}
+
+.update-stats{
+    display: flex;
+    justify-content: center;
+}
+
+.update-stats-button{
+    padding: 1em;
+    background: #efd217;
+    color: #000000;
+    border-radius: 12px;
+    min-width: 100px;
+    font-weight: bold;
+    font-variant-caps: all-small-caps;
+    font-size: 1.5em;
+}

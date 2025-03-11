@@ -174,5 +174,11 @@ func formatComboKey(card1, card2 Card) string {
 }
 
 func (r *Range) GetTotalCombinationsInRange() int {
-    return r.SelectedCombos
+    total := 0
+    for _, hc := range r.Combos {
+        if hc.Selected{
+            total += len(hc.Combinations)
+        }
+    }
+    return total
 }

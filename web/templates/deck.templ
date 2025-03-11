@@ -68,10 +68,13 @@ templ RangeGrid(r *poker.Range) {
         for i := 0; i < 13; i++ {
             <div class="grid-row">
                 for j := 0; j < 13; j++ {
+
                     <button 
                         class={ "grid-cell", templ.KV("selected", r.Grid[i][j].Selected) }
                         hx-post={ fmt.Sprintf("/toggle-range/%d/%d", i, j) }
                         hx-swap="outerHTML"
+                        hx-trigger="click"
+                        hx-on:after-request="htmx.ajax('GET', '/range-stats', {target:'#range-stats'});"
                     >
                         { r.Grid[i][j].String() }
                     </button>
@@ -80,7 +83,23 @@ templ RangeGrid(r *poker.Range) {
         }
     </div>
     
-    <div class="stats">
+        @RangeStats(r)
+
+    <div class="update-stats">
+    <button 
+        hx-get="/range-stats"
+        hx-target="#range-stats"
+        hx-swap="outerHTML"
+        hx-trigger="click"
+        class="update-stats-button"
+        >
+        Recalculate Combos
+    </button>
+    </div>
+}
+
+templ RangeStats(r *poker.Range){
+    <div id="range-stats" class="stats">
         <p>Total combinations in range: { strconv.Itoa(r.GetTotalCombinationsInRange()) } out of 1326</p>
     </div>
 }
